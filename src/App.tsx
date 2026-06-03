@@ -336,8 +336,6 @@ function App() {
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white text-black px-3 py-2 rounded">Skip to main content</a>
       <Hero />
       <GeneralDashboardSection />
-      <DesignMovementSection />
-      <AccessibleDesign />
       <FeedbackSection
         designReview={designReview}
         setDesignReview={setDesignReview}
@@ -348,6 +346,8 @@ function App() {
         reviews={reviews}
         addReview={addReview}
       />
+      <DesignMovementSection />
+      <AccessibleDesign />
       <SocialsSection />
     </div>
   )
