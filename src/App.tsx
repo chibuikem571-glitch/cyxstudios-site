@@ -469,6 +469,7 @@ function FeedbackSection({
 function SocialsSection() {
   const socials = [
     { label: 'TikTok', href: 'https://www.tiktok.com/@chibuikemithink?_r=1&_t=ZS-96uZ742RI7I', emoji: '🎵' },
+    { label: 'Snapchat', href: 'https://snapchat.com/t/WkmNNTl0', emoji: '👻' },
     { label: 'Instagram', href: 'https://instagram.com/your-handle', emoji: '📸' },
     { label: 'Twitter', href: 'https://twitter.com/your-handle', emoji: '🐦' },
     { label: 'LinkedIn', href: 'https://linkedin.com/in/your-handle', emoji: '💼' },
