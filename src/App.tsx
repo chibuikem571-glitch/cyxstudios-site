@@ -24,7 +24,7 @@ import w17 from './assets/WhatsApp Image 2026-06-02 at 22.27.26 (3).jpeg'
 import w18 from './assets/WhatsApp Image 2026-06-02 at 22.27.26.jpeg'
 import { useState, FormEvent, useEffect, useRef, useMemo } from 'react'
 
-const navLinks = ['Overview', 'Projects', 'Design', 'Socials']
+const navLinks = ['Projects', 'Design', 'Socials']
 const sharedImages = [
   { name: '4.png', src: img4 },
   { name: 'Artboard 3@1x_1.png', src: artboard3 },
@@ -278,7 +278,7 @@ function GeneralDashboardSection() {
       <div className="glass-panel border border-white/15 rounded-[2.5rem] p-8 shadow-[0_36px_120px_-70px_rgba(59,130,246,0.55)]">
         <div className="mb-7">
           <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Dashboard</p>
-          <h2 className="text-2xl font-semibold mt-3">General overview</h2>
+          <h2 className="text-2xl font-semibold mt-3">General</h2>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -286,10 +286,16 @@ function GeneralDashboardSection() {
           <DashboardCard title="Workspace" content="6 active artboards, 12 collaborators, and instant feedback channels." />
           <div className="glass-panel border border-white/10 rounded-3xl p-6 text-center">
             <p className="text-2xl font-semibold">Feedback</p>
-            <p className="mt-2 text-sm text-slate-300">Open the feedback survey and capture design review responses.</p>
-            <a href="#feedback" className="mt-4 inline-flex items-center justify-center rounded-2xl bg-white text-black px-4 py-3 font-semibold transition-shadow duration-200 hover:shadow-lg">
-              Go to feedback
-            </a>
+            <p className="mt-2 text-sm text-slate-300">Quick feedback — submit a short note.</p>
+
+            <form action="#feedback" className="mt-4 grid gap-2">
+              <input type="text" name="name" placeholder="Your name" className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-slate-400" />
+              <input type="text" name="note" placeholder="Short note (max 60 chars)" maxLength={60} className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-slate-400" />
+              <div className="flex gap-2 justify-center">
+                <button type="submit" className="inline-flex items-center justify-center rounded-2xl bg-white text-black px-4 py-2 font-semibold">Go to feedback</button>
+                <a href="#feedback" className="inline-flex items-center justify-center rounded-2xl border border-white/10 px-4 py-2 text-sm">Full form</a>
+              </div>
+            </form>
           </div>
           <div className="glass-panel border border-white/10 rounded-3xl p-6 text-center">
             <p className="text-2xl font-semibold">Socials</p>
