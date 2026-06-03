@@ -22,10 +22,32 @@ import w15 from './assets/WhatsApp Image 2026-06-02 at 22.27.26 (1).jpeg'
 import w16 from './assets/WhatsApp Image 2026-06-02 at 22.27.26 (2).jpeg'
 import w17 from './assets/WhatsApp Image 2026-06-02 at 22.27.26 (3).jpeg'
 import w18 from './assets/WhatsApp Image 2026-06-02 at 22.27.26.jpeg'
-import { useState, FormEvent, useEffect, useRef } from 'react'
+import { useState, FormEvent, useEffect, useRef, useMemo } from 'react'
 
-const navLinks = ['Overview', 'Projects', 'Design']
-const sharedImages = [img4, artboard3, mm, w1, w2, w3, w4, w5, w6, w7, w8, w9, w10, w11, w12, w13, w14, w15, w16, w17, w18]
+const navLinks = ['Overview', 'Projects', 'Design', 'Socials']
+const sharedImages = [
+  { name: '4.png', src: img4 },
+  { name: 'Artboard 3@1x_1.png', src: artboard3 },
+  { name: 'MM.png', src: mm },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.22.jpeg', src: w1 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.23 (1).jpeg', src: w2 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.23 (2).jpeg', src: w3 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.23 (3).jpeg', src: w4 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.23.jpeg', src: w5 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.24 (1).jpeg', src: w6 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.24 (2).jpeg', src: w7 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.24 (3).jpeg', src: w8 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.24 (4).jpeg', src: w9 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.24.jpeg', src: w10 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.25 (1).jpeg', src: w11 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.25 (2).jpeg', src: w12 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.25 (3).jpeg', src: w13 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.25.jpeg', src: w14 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.26 (1).jpeg', src: w15 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.26 (2).jpeg', src: w16 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.26 (3).jpeg', src: w17 },
+  { name: 'WhatsApp Image 2026-06-02 at 22.27.26.jpeg', src: w18 },
+]
 
 function Navbar() {
   return (
@@ -156,17 +178,13 @@ function AudioPlayer() {
     const audio = audioRef.current
     if (!audio) return
     audio.volume = 0.75
-    audio.muted = !audioAllowed
+    audio.muted = false
 
     const tryPlay = async () => {
       try {
         await audio.play()
         setIsPlaying(true)
-        setIsMuted(audio.muted)
-        if (audioAllowed && audio.muted) {
-          audio.muted = false
-          setIsMuted(false)
-        }
+        setIsMuted(false)
       } catch (e) {
         setIsPlaying(false)
         setAutoplayBlocked(true)
@@ -315,6 +333,7 @@ function App() {
         reviews={reviews}
         addReview={addReview}
       />
+      <SocialsSection />
     </div>
   )
 }
@@ -447,28 +466,71 @@ function FeedbackSection({
   )
 }
 
-function Gallery({ images }: { images: string[] }) {
+function SocialsSection() {
+  const socials = [
+    { label: 'TikTok', href: 'https://www.tiktok.com/@chibuikemithink?_r=1&_t=ZS-96uZ742RI7I', emoji: '🎵' },
+    { label: 'Instagram', href: 'https://instagram.com/your-handle', emoji: '📸' },
+    { label: 'Twitter', href: 'https://twitter.com/your-handle', emoji: '🐦' },
+    { label: 'LinkedIn', href: 'https://linkedin.com/in/your-handle', emoji: '💼' },
+    { label: 'GitHub', href: 'https://github.com/your-handle', emoji: '🐙' },
+  ]
+
+  return (
+    <section id="socials" className="px-6 md:px-12 lg:px-16 py-12">
+      <div className="glass-panel border border-white/15 rounded-[2.5rem] p-8 shadow-[0_36px_120px_-70px_rgba(59,130,246,0.55)]">
+        <div className="mb-7">
+          <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Socials</p>
+          <h2 className="text-2xl font-semibold mt-3">Connect with cyxstudios</h2>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {socials.map((social) => (
+            <a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noreferrer"
+              className="glass-panel border border-white/10 rounded-3xl p-6 text-center transition-transform duration-200 hover:-translate-y-1 hover:border-white/20"
+            >
+              <div className="text-3xl mb-4">{social.emoji}</div>
+              <p className="font-semibold">{social.label}</p>
+              <p className="mt-2 text-sm text-slate-400">Follow for updates and new releases.</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+type GalleryImage = { name: string; src: string }
+
+function Gallery({ images }: { images: GalleryImage[] }) {
   const [showAll, setShowAll] = useState(false)
-  const visible = showAll ? images : images.slice(0, 6)
+  const sortedImages = useMemo(
+    () => [...images].sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })),
+    [images],
+  )
+  const visible = showAll ? sortedImages : sortedImages.slice(0, 6)
 
   return (
     <>
       <div role="list" className="grid gap-4 sm:grid-cols-3">
-        {visible.map((src, i) => {
-          const raw = String(src)
-          const name = decodeURIComponent(raw.split('/').pop() || `image-${i}`)
+        {visible.map((image, i) => {
+          const fileName = image.name.replace(/\.[^/.]+$/, '')
+          const label = fileName.replace(/[-_]/g, ' ')
           return (
             <figure key={i} role="listitem" className="glass-panel border border-white/10 rounded-2xl p-2">
               <img
-                src={src}
-                alt={name.replace(/[-_]/g, ' ')}
+                src={image.src}
+                alt={label}
                 className="w-full h-44 object-cover rounded-lg"
                 tabIndex={0}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') window.open(src, '_blank')
+                  if (e.key === 'Enter' || e.key === ' ') window.open(image.src, '_blank')
                 }}
               />
-              <figcaption className="mt-2 text-sm text-slate-300">{name.replace(/[-_]/g, ' ')}</figcaption>
+              <figcaption className="mt-2 text-sm text-slate-300">{label}</figcaption>
             </figure>
           )
         })}
