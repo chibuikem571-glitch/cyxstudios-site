@@ -292,8 +292,17 @@ function GeneralDashboardSection() {
             </a>
           </div>
           <div className="glass-panel border border-white/10 rounded-3xl p-6 text-center">
-            <p className="text-2xl font-semibold">Insights</p>
-            <p className="mt-2 text-sm text-slate-300">Track performance, review counts, and creative progress at a glance.</p>
+            <p className="text-2xl font-semibold">Socials</p>
+            <p className="mt-2 text-sm text-slate-300">Quick access to our social profiles.</p>
+
+            <div className="mt-4 flex items-center justify-center gap-3 flex-wrap">
+              <a href="https://www.tiktok.com/@chibuikemithink?_r=1&_t=ZS-96uZ742RI7I" target="_blank" rel="noreferrer" className="text-2xl hover:scale-110 transition-transform">🎵</a>
+              <a href="https://snapchat.com/t/WkmNNTl0" target="_blank" rel="noreferrer" className="text-2xl hover:scale-110 transition-transform">👻</a>
+              <a href="https://instagram.com/your-handle" target="_blank" rel="noreferrer" className="text-2xl hover:scale-110 transition-transform">📸</a>
+              <a href="https://twitter.com/your-handle" target="_blank" rel="noreferrer" className="text-2xl hover:scale-110 transition-transform">🐦</a>
+              <a href="https://linkedin.com/in/your-handle" target="_blank" rel="noreferrer" className="text-2xl hover:scale-110 transition-transform">💼</a>
+              <a href="https://github.com/your-handle" target="_blank" rel="noreferrer" className="text-2xl hover:scale-110 transition-transform">🐙</a>
+            </div>
           </div>
         </div>
       </div>
