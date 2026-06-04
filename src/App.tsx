@@ -24,7 +24,7 @@ import w17 from './assets/WhatsApp Image 2026-06-02 at 22.27.26 (3).jpeg'
 import w18 from './assets/WhatsApp Image 2026-06-02 at 22.27.26.jpeg'
 import { useState, FormEvent, useEffect, useRef, useMemo } from 'react'
 
-const navLinks = ['Projects', 'Design', 'Socials']
+const navLinks = ['Overview', 'Projects', 'Design', 'Feedback', 'Socials']
 const sharedImages = [
   { name: '4.png', src: img4 },
   { name: 'Artboard 3@1x_1.png', src: artboard3 },
@@ -63,12 +63,15 @@ function Navbar() {
           </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-8 text-sm text-slate-200">
-          {navLinks.map((link) => (
-            <a key={link} href={`#${link.toLowerCase()}`} className="transition-colors duration-200 hover:text-white">
-              {link}
-            </a>
-          ))}
+        <div className="flex flex-wrap items-center gap-3 md:gap-8 text-sm text-slate-200">
+          {navLinks.map((link) => {
+            const href = link.toLowerCase() === 'overview' ? '#dashboard' : `#${link.toLowerCase()}`
+            return (
+              <a key={link} href={href} className="transition-colors duration-200 hover:text-white">
+                {link}
+              </a>
+            )
+          })}
         </div>
 
         <button className="bg-white text-black px-6 py-3 rounded-2xl text-sm font-semibold transition-transform duration-200 hover:-translate-y-0.5 hover:bg-slate-100">
@@ -111,7 +114,7 @@ function Hero() {
 
       <Navbar />
 
-      <div id="main" className="relative z-10 px-6 md:px-12 lg:px-16 pt-16 pb-24">
+      <div id="main" className="relative z-10 px-6 md:px-12 lg:px-16 pt-16 pb-16">
         <div className="grid gap-10 lg:grid-cols-[1.5fr_0.5fr] items-center">
           <div>
             <AnimatedHeading
@@ -134,8 +137,8 @@ function Hero() {
                 <button className="bg-white text-black px-7 py-3 rounded-2xl font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-100">
                   View design system
                 </button>
-                <a href="#design" className="glass-panel border border-white/20 text-white px-7 py-3 rounded-2xl font-semibold transition-all duration-200 hover:bg-white/10">
-                  Explore dashboard
+                <a href="#dashboard" className="glass-panel border border-white/20 text-white px-7 py-3 rounded-2xl font-semibold transition-all duration-200 hover:bg-white/10">
+                  Explore command center
                 </a>
               </div>
             </FadeIn>
@@ -153,7 +156,7 @@ function Hero() {
 
 function ProjectsSection() {
   return (
-    <section id="projects" className="px-6 md:px-12 lg:px-16 py-12">
+    <section id="projects" className="px-6 md:px-12 lg:px-16 py-6">
       <h2 className="text-2xl font-semibold mb-4">Projects</h2>
       <p className="text-sm text-slate-300 mb-6">Here are the same uploaded images shown in the Designs section, now grouped as Projects.</p>
       <Gallery images={sharedImages} />
@@ -272,13 +275,31 @@ function AudioPlayer() {
   )
 }
 
-function GeneralDashboardSection() {
+function GeneralDashboardSection({
+  designReview,
+  setDesignReview,
+  reviewName,
+  setReviewName,
+  reviewComment,
+  setReviewComment,
+  reviews,
+  addReview,
+}: {
+  designReview: string
+  setDesignReview: (value: string) => void
+  reviewName: string
+  setReviewName: (value: string) => void
+  reviewComment: string
+  setReviewComment: (value: string) => void
+  reviews: { name: string; comment: string }[]
+  addReview: (event: FormEvent<HTMLFormElement>) => void
+}) {
   return (
-    <section id="dashboard" className="px-6 md:px-12 lg:px-16 py-12">
+    <section id="dashboard" className="px-6 md:px-12 lg:px-16 py-6">
       <div className="glass-panel border border-white/15 rounded-[2.5rem] p-8 shadow-[0_36px_120px_-70px_rgba(59,130,246,0.55)]">
         <div className="mb-7">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Dashboard</p>
-          <h2 className="text-2xl font-semibold mt-3">General</h2>
+          <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Command center</p>
+          <h2 className="text-2xl font-semibold mt-3">Overview</h2>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -311,6 +332,19 @@ function GeneralDashboardSection() {
             </div>
           </div>
         </div>
+
+        <div className="mt-8">
+          <FeedbackSection
+            designReview={designReview}
+            setDesignReview={setDesignReview}
+            reviewName={reviewName}
+            setReviewName={setReviewName}
+            reviewComment={reviewComment}
+            setReviewComment={setReviewComment}
+            reviews={reviews}
+            addReview={addReview}
+          />
+        </div>
       </div>
     </section>
   )
@@ -335,8 +369,7 @@ function App() {
       <AudioPlayer />
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white text-black px-3 py-2 rounded">Skip to main content</a>
       <Hero />
-      <GeneralDashboardSection />
-      <FeedbackSection
+      <GeneralDashboardSection
         designReview={designReview}
         setDesignReview={setDesignReview}
         reviewName={reviewName}
@@ -357,7 +390,7 @@ export default App
 
 function DesignMovementSection() {
   return (
-    <section className="px-6 md:px-12 lg:px-16 py-12">
+    <section className="px-6 md:px-12 lg:px-16 py-6">
       <div className="glass-panel border border-white/15 rounded-[2.5rem] p-8 shadow-[0_36px_120px_-70px_rgba(59,130,246,0.55)] relative overflow-hidden">
         <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent" />
         <div className="mb-7 flex items-center justify-between gap-4">
@@ -396,7 +429,7 @@ function DesignMovementSection() {
 
 function AccessibleDesign() {
   return (
-    <section id="design" role="region" aria-labelledby="design-heading" className="px-6 md:px-12 lg:px-16 py-12">
+    <section id="design" role="region" aria-labelledby="design-heading" className="px-6 md:px-12 lg:px-16 py-6">
       <h2 id="design-heading" className="text-2xl font-semibold mb-4">Designs</h2>
       <p className="text-sm text-slate-300 mb-6">Accessible gallery of uploaded design images. Use Tab to focus each image and Enter/Space to open full size.</p>
 
@@ -425,7 +458,7 @@ function FeedbackSection({
   addReview: (event: React.FormEvent<HTMLFormElement>) => void
 }) {
   return (
-    <section id="feedback" className="px-6 md:px-12 lg:px-16 py-12">
+    <div id="feedback" className="mt-8">
       <div className="glass-panel border border-white/15 rounded-[2.5rem] p-8 shadow-[0_36px_120px_-70px_rgba(59,130,246,0.55)]">
         <div className="mb-7">
           <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Feedback</p>
@@ -477,7 +510,7 @@ function FeedbackSection({
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 
@@ -492,7 +525,7 @@ function SocialsSection() {
   ]
 
   return (
-    <section id="socials" className="px-6 md:px-12 lg:px-16 py-12">
+    <section id="socials" className="px-6 md:px-12 lg:px-16 py-6">
       <div className="glass-panel border border-white/15 rounded-[2.5rem] p-8 shadow-[0_36px_120px_-70px_rgba(59,130,246,0.55)]">
         <div className="mb-7">
           <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Socials</p>
