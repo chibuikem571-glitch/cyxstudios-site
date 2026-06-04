@@ -134,9 +134,9 @@ function Hero() {
 
             <FadeIn delay={1200} duration={900}>
               <div className="mt-8 flex flex-wrap gap-4">
-                <button className="bg-white text-black px-7 py-3 rounded-2xl font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-100">
+                <a href="#design-system" className="bg-white text-black px-7 py-3 rounded-2xl font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:bg-slate-100">
                   View design system
-                </button>
+                </a>
                 <a href="#dashboard" className="glass-panel border border-white/20 text-white px-7 py-3 rounded-2xl font-semibold transition-all duration-200 hover:bg-white/10">
                   Explore command center
                 </a>
@@ -369,6 +369,7 @@ function App() {
       <AudioPlayer />
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-white text-black px-3 py-2 rounded">Skip to main content</a>
       <Hero />
+      <DesignSystemSection />
       <GeneralDashboardSection
         designReview={designReview}
         setDesignReview={setDesignReview}
@@ -546,6 +547,46 @@ function SocialsSection() {
               <p className="mt-2 text-sm text-slate-400">Follow for updates and new releases.</p>
             </a>
           ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function DesignSystemSection() {
+  return (
+    <section id="design-system" className="px-6 md:px-12 lg:px-16 py-6">
+      <div className="glass-panel border border-white/15 rounded-[2.5rem] p-6 shadow-[0_24px_80px_-40px_rgba(59,130,246,0.45)]">
+        <div className="mb-4">
+          <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Design system</p>
+          <h2 className="text-2xl font-semibold mt-2">Tokens & components</h2>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-3">
+          <div>
+            <h3 className="text-sm text-slate-300 uppercase">Colors</h3>
+            <div className="mt-3 flex gap-2">
+              <div className="w-10 h-10 rounded bg-gradient-to-br from-violet-500 to-pink-500" />
+              <div className="w-10 h-10 rounded bg-slate-800 border border-white/10" />
+              <div className="w-10 h-10 rounded bg-white/90 border" />
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm text-slate-300 uppercase">Typography</h3>
+            <div className="mt-3">
+              <p className="text-lg font-semibold">Heading — Inter / System</p>
+              <p className="text-sm text-slate-400">Body — 16px, 1.5 line-height</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm text-slate-300 uppercase">Buttons</h3>
+            <div className="mt-3 flex gap-3 items-center">
+              <button className="bg-white text-black px-3 py-1 rounded-2xl text-sm">Primary</button>
+              <button className="border border-white/10 px-3 py-1 rounded-2xl text-sm">Secondary</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
