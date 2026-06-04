@@ -23,6 +23,7 @@ import w16 from './assets/WhatsApp Image 2026-06-02 at 22.27.26 (2).jpeg'
 import w17 from './assets/WhatsApp Image 2026-06-02 at 22.27.26 (3).jpeg'
 import w18 from './assets/WhatsApp Image 2026-06-02 at 22.27.26.jpeg'
 import { useState, FormEvent, useEffect, useRef, useMemo } from 'react'
+import designTokens from './design-tokens.json'
 
 const navLinks = ['Overview', 'Projects', 'Design', 'Feedback', 'Socials']
 const sharedImages = [
@@ -554,41 +555,132 @@ function SocialsSection() {
 }
 
 function DesignSystemSection() {
+  const [showGuide, setShowGuide] = useState(false)
+
+  const downloadTokens = () => {
+    const data = JSON.stringify(designTokens, null, 2)
+    const blob = new Blob([data], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'design-tokens.json'
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }
+
+  const openPrintable = () => {
+    const html = `
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>Design System — cyxstudios</title>
+          <style>body{background:#020617;color:#e6eef8;font-family:Inter,system-ui,Arial;padding:24px} .sw{display:inline-block;width:36px;height:36px;border-radius:6px;margin-right:8px}</style>
+        </head>
+        <body>
+          <h1>cyxstudios — Design tokens</h1>
+          <h2>Colors</h2>
+          ${Object.entries((designTokens as any).colors)
+            .map(([k, v]) => `<div><span class="sw" style="background:${v}"></span><strong>${k}</strong>: ${v}</div>`)
+            .join('')}
+          <h2>Typography</h2>
+          <pre>${JSON.stringify((designTokens as any).typography, null, 2)}</pre>
+          <h2>Spacing</h2>
+          <pre>${JSON.stringify((designTokens as any).spacing, null, 2)}</pre>
+        </body>
+      </html>
+    `
+
+    const w = window.open('', '_blank')
+    if (!w) return
+    w.document.write(html)
+    w.document.close()
+  }
+
   return (
     <section id="design-system" className="px-6 md:px-12 lg:px-16 py-6">
       <div className="glass-panel border border-white/15 rounded-[2.5rem] p-6 shadow-[0_24px_80px_-40px_rgba(59,130,246,0.45)]">
-        <div className="mb-4">
-          <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Design system</p>
-          <h2 className="text-2xl font-semibold mt-2">Tokens & components</h2>
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-slate-300">Design system</p>
+            <h2 className="text-2xl font-semibold mt-2">Tokens & components</h2>
+          </div>
+
+          <div className="flex gap-3">
+            <button onClick={downloadTokens} className="rounded-2xl bg-white text-black px-3 py-2 text-sm font-semibold">Download tokens</button>
+            <button onClick={() => setShowGuide(true)} className="rounded-2xl border border-white/10 px-3 py-2 text-sm">Open style guide</button>
+            <button onClick={openPrintable} className="rounded-2xl border border-white/10 px-3 py-2 text-sm">Printable</button>
+          </div>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-3">
           <div>
             <h3 className="text-sm text-slate-300 uppercase">Colors</h3>
             <div className="mt-3 flex gap-2">
-              <div className="w-10 h-10 rounded bg-gradient-to-br from-violet-500 to-pink-500" />
-              <div className="w-10 h-10 rounded bg-slate-800 border border-white/10" />
-              <div className="w-10 h-10 rounded bg-white/90 border" />
+              {Object.entries((designTokens as any).colors).map(([k, v]: any) => (
+                <div key={k} className="flex items-center gap-2">
+                  <div className="w-10 h-10 rounded" style={{ background: String(v) }} />
+                  <div className="text-sm">
+                    <div className="font-semibold">{k}</div>
+                    <div className="text-slate-400">{v}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
           <div>
             <h3 className="text-sm text-slate-300 uppercase">Typography</h3>
             <div className="mt-3">
-              <p className="text-lg font-semibold">Heading — Inter / System</p>
-              <p className="text-sm text-slate-400">Body — 16px, 1.5 line-height</p>
+              <pre className="text-sm text-slate-300">{JSON.stringify((designTokens as any).typography, null, 2)}</pre>
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm text-slate-300 uppercase">Buttons</h3>
-            <div className="mt-3 flex gap-3 items-center">
-              <button className="bg-white text-black px-3 py-1 rounded-2xl text-sm">Primary</button>
-              <button className="border border-white/10 px-3 py-1 rounded-2xl text-sm">Secondary</button>
+            <h3 className="text-sm text-slate-300 uppercase">Spacing</h3>
+            <div className="mt-3">
+              <pre className="text-sm text-slate-300">{JSON.stringify((designTokens as any).spacing, null, 2)}</pre>
             </div>
           </div>
         </div>
       </div>
+
+      {showGuide ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-[#071024] rounded-2xl w-[min(900px,96%)] p-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Style guide — cyxstudios</h3>
+              <div className="flex gap-2">
+                <button onClick={() => { downloadTokens(); }} className="rounded-2xl bg-white text-black px-3 py-1 text-sm">Download</button>
+                <button onClick={() => setShowGuide(false)} className="rounded-2xl border border-white/10 px-3 py-1 text-sm">Close</button>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4">
+              <div>
+                <h4 className="text-sm text-slate-300 uppercase">Colors</h4>
+                <div className="mt-2 flex gap-3 flex-wrap">
+                  {Object.entries((designTokens as any).colors).map(([k, v]: any) => (
+                    <div key={k} className="flex items-center gap-2">
+                      <div className="w-12 h-12 rounded" style={{ background: String(v) }} />
+                      <div>
+                        <div className="font-semibold">{k}</div>
+                        <div className="text-slate-400">{v}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 className="text-sm text-slate-300 uppercase">Typography</h4>
+                <pre className="text-sm text-slate-300 mt-2">{JSON.stringify((designTokens as any).typography, null, 2)}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   )
 }
